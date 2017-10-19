@@ -1,3 +1,21 @@
+/*
+Copyright 2017 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 package SteelheadCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -61,7 +79,12 @@ public class Auto2 extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         
+                turnRight (180);
+                sleep (1000);
+                DrivePIDF(1000, 0.45);
+                sleep (1000);
                 turnRight (90);
+                DrivePIDF(-1000, 0.45);
                 
         while (opModeIsActive()) {
             
@@ -87,10 +110,12 @@ public class Auto2 extends LinearOpMode {
         int heading=getHeading();
         int target=heading+degrees;
         target = target%360;
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
         while (heading<target) {
             
-                rightMotor.setPower(0.45);
-                leftMotor.setPower(-0.45);
+                rightMotor.setPower(-0.60);
+                leftMotor.setPower(0.60);
                 
                 telemetry.addData("intitial", heading);
                 telemetry.addData("gyro", gyro.getHeading());
@@ -102,5 +127,29 @@ public class Auto2 extends LinearOpMode {
         rightMotor.setPower(0);
         leftMotor.setPower(0); 
        
+    }
+    
+    // Forward f(-x,y)= -f(x,-y)
+    public void DrivePIDF(int encoder, double power) {
+        
+        rightMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setTargetPosition(encoder);
+        rightMotor.setPower(power);
+        leftMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftMotor.setTargetPosition(encoder);
+        leftMotor.setPower(power);
+        while (rightMotor.isBusy()) {
+           
+            telemetry.addData("Position", rightMotor.getCurrentPosition());
+            telemetry.update();
+        }
+        
+        rightMotor.setPower(0.0);
+        leftMotor.setPower(0.0);
+        
+            
+
     }
 }
