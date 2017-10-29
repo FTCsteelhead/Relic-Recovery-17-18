@@ -44,7 +44,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 @Autonomous
 
-public class ExtraServos extends LinearOpMode {
+public class CompTeleOp extends LinearOpMode {
     private CRServo lwservo;
     private CRServo rwservo;
     private DcMotor rightMotor;
