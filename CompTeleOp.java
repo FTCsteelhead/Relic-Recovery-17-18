@@ -21,7 +21,7 @@ package SteelheadCode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -42,27 +42,33 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@Autonomous
+@TeleOp
 
 public class CompTeleOp extends LinearOpMode {
-    private CRServo lwservo;
-    private CRServo rwservo;
+    //private CRServo lwservo;
+    //private CRServo rwservo;
     private DcMotor rightMotor;
     private DcMotor leftMotor;
+    private DcMotor upMotor;
+    private Servo armLservo;
+    private Servo armRservo;
     private GyroSensor gyro;
-    private Servo leftservo;
-    private Servo rightservo;
+    private Servo lservo;
+    private Servo rservo;
 
 
     @Override
     public void runOpMode() {
-        lwservo = hardwareMap.get(CRServo.class, "lwservo");
-        rwservo = hardwareMap.get(CRServo.class, "rwservo");
+        //lwservo = hardwareMap.get(CRServo.class, "lwservo");
+        //rwservo = hardwareMap.get(CRServo.class, "rwservo");
         rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
         leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
         gyro = hardwareMap.get(GyroSensor.class, "gyro");
-        leftservo = hardwareMap.get(Servo.class, "leftservo");
-        rightservo = hardwareMap.get(Servo.class, "rightservo");
+        upMotor = hardwareMap.get(DcMotor.class, "upMotor");
+        armLservo = hardwareMap.get(Servo.class, "armLservo");
+        armRservo = hardwareMap.get(Servo.class, "armRservo");
+        lservo = hardwareMap.get(Servo.class, "lservo");
+        rservo = hardwareMap.get(Servo.class, "rservo");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -71,31 +77,37 @@ public class CompTeleOp extends LinearOpMode {
         
         // initialize motors and servos
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightservo.setPosition(0);
-        leftservo.setPosition(1);
+        rservo.setPosition(1);
+        lservo.setPosition(0);
         
-
+        //initialize arms
+        armLservo.setPosition(1);
+        armRservo.setPosition(1);
+        
+        
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             
-            //set cont. servos
+            /*set cont. servos
             if (gamepad1.left_bumper) {
             lwservo.setPower(-1);
             rwservo.setPower(1);
-            }
+            }*/
             
             // set motor power
             leftMotor.setPower(gamepad1.left_stick_y);
             rightMotor.setPower(gamepad1.right_stick_y);
             
+
+            
             //servo squeeze
             if (gamepad1.right_bumper) {
-                rightservo.setPosition(1);
-                leftservo.setPosition(0);
+                rservo.setPosition(0);
+                lservo.setPosition(1);
             }
             else {
-                rightservo.setPosition(0);
-                leftservo.setPosition(1);
+                rservo.setPosition(1);
+                lservo.setPosition(0);
             }
                 
                 
