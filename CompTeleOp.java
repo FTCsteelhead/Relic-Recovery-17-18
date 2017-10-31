@@ -95,19 +95,20 @@ public class CompTeleOp extends LinearOpMode {
             }*/
             
             // set motor power
-            leftMotor.setPower(gamepad1.left_stick_y);
-            rightMotor.setPower(gamepad1.right_stick_y);
+            leftMotor.setPower(gamepad1.right_stick_y*1/2);
+            rightMotor.setPower(gamepad1.left_stick_y*1/2);
             
-
+            // set motor lift
+            upMotor.setPower(gamepad2.left_stick_y);
             
             //servo squeeze
-            if (gamepad1.right_bumper) {
-                rservo.setPosition(0);
-                lservo.setPosition(1);
+            if (gamepad2.right_bumper) {
+                rservo.setPosition(0.2);
+                lservo.setPosition(0.85);
             }
             else {
-                rservo.setPosition(1);
-                lservo.setPosition(0);
+                rservo.setPosition(0.85);
+                lservo.setPosition(0.2);
             }
                 
                 
