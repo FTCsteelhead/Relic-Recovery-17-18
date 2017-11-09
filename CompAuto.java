@@ -45,7 +45,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 @Autonomous
 
-public class CompAuto.java extends LinearOpMode {
+public class CompAuto extends LinearOpMode {
     private DcMotor rightMotor;
     private DcMotor leftMotor;
     private GyroSensor gyro;
@@ -79,12 +79,7 @@ public class CompAuto.java extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         
-                turnRight (180);
-                sleep (1000);
-                DrivePIDF(1000, 0.45);
-                sleep (1000);
-                turnRight (90);
-                DrivePIDF(-1000, 0.45);
+                DrivePIDF(3000, 0.45);
                 
         while (opModeIsActive()) {
             
